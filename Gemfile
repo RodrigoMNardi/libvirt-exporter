@@ -1,0 +1,5 @@
+gem 'ruby-libvirt'
+gem 'nokogiri'
+gem 'sinatra'
+gem 'rest-client'
+gem 'json'

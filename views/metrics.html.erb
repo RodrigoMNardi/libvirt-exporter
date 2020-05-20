@@ -1,0 +1,47 @@
+# Active domains<br>
+libvirt_domains_total <%= num_domains %><br>
+# Inactive domains<br>
+libvirt_domains_active <%= active_domains %><br>
+# Inactive domains<br>
+libvirt_domains_inactive <%= inactive_domains %><br>
+# Get domains information<br>
+<% domains_info.each_pair do |domain, info| %>
+  libvirt_domains_cpu_time{domain="<%= domain %>"} <%= info[:cpu_time] %><br>
+  libvirt_domains_max_mem{domain="<%= domain %>"} <%= info[:max_mem] %><br>
+  libvirt_domains_memory{domain="<%= domain %>"} <%= info[:memory] %><br>
+  libvirt_domains_nr_virt_cpu{domain="<%= domain %>"} <%= info[:nr_virt_cpu] %><br>
+  libvirt_domains_state{domain="<%= domain %>"} <%= info[:state] %><br>
+  libvirt_domains_disk_errors{domain="<%= domain %>"} <%= info[:errs] %><br>
+  libvirt_domains_disk_read_bytes{domain="<%= domain %>"} <%= info[:rd_bytes] %><br>
+  libvirt_domains_disk_read_requests{domain="<%= domain %>"} <%= info[:rd_req] %><br>
+  libvirt_domains_disk_write_bytes{domain="<%= domain %>"} <%= info[:wr_bytes] %><br>
+  libvirt_domains_disk_write_requests{domain="<%= domain %>"} <%= info[:wr_req] %><br>
+  libvirt_domains_disk_capacity{domain="<%= domain %>"} <%= info[:capacity] %><br>
+  libvirt_domains_disk_allocation{domain="<%= domain %>"} <%= info[:allocation] %><br>
+  libvirt_domains_disk_physical{domain="<%= domain %>"} <%= info[:physical] %><br>
+
+
+
+<% end %>
+# Total of interfaces<br>
+libvirt_interfaces_total <%= num_interfaces %><br>
+# Active interfaces<br>
+libvirt_interfaces_active <%= active_interfaces %><br>
+# Inactive interfaces<br>
+libvirt_interfaces_inactive <%= inactive_interfaces %><br>
+# Total of networks<br>
+libvirt_networks_total <%= num_networks %><br>
+# Active networks<br>
+libvirt_networks_active <%= active_networks %><br>
+# Inactive networks<br>
+libvirt_networks_inactive <%= inactive_networks %><br>
+# Hypervision version<br>
+libvirt_hypervisor_version <%= hypervisor_version %><br>
+# Libvirt version<br>
+libvirt_version <%= libvirt_version %><br>
+# Hostname<br>
+libvirt_hostname <%= hostname %><br>
+# Virtual CPUs<br>
+libvirt_virtual_cpus <%= vcpus %><br>
+# Libvirt Type<br>
+libvirt_type <%= connection_type %><br>
