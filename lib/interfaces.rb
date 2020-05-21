@@ -1,10 +1,14 @@
 module Interfaces
-  def active_interfaces
+  def num_interfaces
     @conn.num_of_interfaces
   end
 
+  def active_interfaces
+    @conn.list_interfaces.size
+  end
+
   def inactive_interfaces
-    @conn.num_of_defined_interfaces
+    @conn.num_of_defined_interfaces.size
   end
 
   def interfaces
@@ -13,12 +17,16 @@ module Interfaces
     (active+inactive).map {|interface_name| interface_name}
   end
 
-  def active_num_networks
+  def num_networks
     @conn.num_of_networks
   end
 
-  def inactive_num_networks
+  def active_networks
     @conn.num_of_defined_networks
+  end
+
+  def inactive_networks
+    @conn.num_of_networks
   end
 
   def node_devices

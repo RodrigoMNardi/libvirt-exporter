@@ -1,1 +1,3 @@
-gem 'libvirt'
+gem 'ruby-libvirt'
+gem 'nokogiri'
+gem 'sinatra'
