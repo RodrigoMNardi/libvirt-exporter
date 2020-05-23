@@ -1,4 +1,6 @@
 require 'sinatra'
-require_relative 'collector'
+require_relative 'exporter/collector'
 
-run Collector
+$OSv_URL = '0.0.0.0:45678'
+
+run Exporter::Collector
