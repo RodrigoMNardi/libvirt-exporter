@@ -35,13 +35,11 @@ module Exporter
 
         total = operation_system_memory_total || 0
         free  = operation_system_memory_free  || 0
-        usage = (total - free) || 0
 
-        message + "osv_os_version{name=\"#{operation_system_version}\"} 1
+        message + "
+osv_os_version{name=\"#{operation_system_version}\"} 1
 osv_os_memory_total #{total}
 osv_os_memory_free #{free }
-osv_os_memory_usage #{usage}
-osv_os_memory_usage_percent #{(free.to_f / total.to_f) * 100}
 osv_cpus #{vcpus}
 osv_flags{flags=\"#{flags}\"} 1
 osv_hypervisor{name=\"#{flags}\"} 1"

@@ -25,6 +25,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 require 'sinatra/base'
+require 'stringio'
 
 require_relative 'libvirt'
 require_relative 'osv'
@@ -36,10 +37,10 @@ module Exporter
     end
 
     get '/metrics' do
-      msg  = Exporter::PrometheusLibvirt.export
-      msg += Exporter::PrometheusOsv.export
-      File.write('metrics.txt', msg)
-      send_file 'metrics.txt'
+      msg = StringIO.new
+      msg << Exporter::PrometheusLibvirt.export
+      msg << Exporter::PrometheusOsv.export
+      msg.string
     end
   end
 end
