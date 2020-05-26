@@ -69,7 +69,7 @@ libvirt_domains_network_tx_packets{domain=\"#{ domain }\", iface=\"#{iface}\"} #
           end
         end
 
-        msg + "
+        msg += "
 # Total of interfaces
 libvirt_interfaces_total #{ libvirt_num_interfaces }
 # Active interfaces
@@ -88,6 +88,8 @@ libvirt_hypervisor_version{name=\"#{ libvirt_connection_type }\"} #{ libvirt_hyp
 libvirt_version #{ libvirt_version }
 # Virtual CPUs
 libvirt_virtual_cpus #{ libvirt_vcpus }"
+        @conn.close
+        msg
       end
     end
   end
