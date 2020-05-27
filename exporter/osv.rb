@@ -35,12 +35,13 @@ module Exporter
 
         total = operation_system_memory_total || 0
         free  = operation_system_memory_free  || 0
+        cpus  = vcpus || 0
 
         message + "
 osv_os_version{name=\"#{operation_system_version}\"} 1
 osv_os_memory_total #{total}
 osv_os_memory_free #{free }
-osv_cpus #{vcpus}
+osv_cpus #{cpus}
 osv_flags{flags=\"#{flags}\"} 1
 osv_hypervisor{name=\"#{flags}\"} 1"
       end
