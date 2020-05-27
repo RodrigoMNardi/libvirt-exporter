@@ -43,7 +43,7 @@ osv_os_memory_total #{total}
 osv_os_memory_free #{free }
 osv_cpus #{cpus}
 osv_flags{flags=\"#{flags}\"} 1
-osv_hypervisor{name=\"#{flags}\"} 1"
+osv_hypervisor{name=\"#{hypervisor}\"} 1"
       end
     end
   end
