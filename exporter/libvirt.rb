@@ -34,7 +34,8 @@ module Exporter
 
       def export
         @conn = Libvirt::open("qemu:///system")
-        msg  = "# Active domains
+        msg  = StringIO.new
+        msg  << "# Active domains
 libvirt_domains_total #{libvirt_num_domains}
 # Inactive domains
 libvirt_domains_active #{libvirt_active_domains}
@@ -42,7 +43,7 @@ libvirt_domains_active #{libvirt_active_domains}
 libvirt_domains_inactive #{libvirt_inactive_domains}
 # Get domains information"
         libvirt_domains_info.each_pair do |domain, info|
-          msg += "
+          msg << "
 libvirt_domains_cpu_time{domain=\"#{ domain }\"} #{ info[:cpu_time] }
 libvirt_domains_max_mem{domain=\"#{ domain }\"} #{ info[:max_mem] }
 libvirt_domains_memory{domain=\"#{ domain }\"} #{ info[:memory] }
@@ -58,7 +59,7 @@ libvirt_domains_disk_allocation{domain=\"#{ domain }\"} #{ info[:allocation] }
 libvirt_domains_disk_physical{domain=\"#{ domain }\"} #{ info[:physical] }
 "
           info[:net_stats].each_pair do |iface, data|
-            msg += "libvirt_domains_network_rx_bytes{domain=\"#{ domain }\", iface=\"#{iface}\"} #{data[:rx_bytes]}
+            msg << "libvirt_domains_network_rx_bytes{domain=\"#{ domain }\", iface=\"#{iface}\"} #{data[:rx_bytes]}
 libvirt_domains_network_rx_drop{domain=\"#{ domain }\", iface=\"#{iface}\"} #{data[:rx_drop]}
 libvirt_domains_network_rx_errs{domain=\"#{ domain }\", iface=\"#{iface}\"} #{data[:rx_errs]}
 libvirt_domains_network_rx_packets{domain=\"#{ domain }\", iface=\"#{iface}\"} #{data[:rx_packets]}
@@ -69,7 +70,7 @@ libvirt_domains_network_tx_packets{domain=\"#{ domain }\", iface=\"#{iface}\"} #
           end
         end
 
-        msg += "
+        msg << "
 # Total of interfaces
 libvirt_interfaces_total #{ libvirt_num_interfaces }
 # Active interfaces
@@ -89,7 +90,7 @@ libvirt_version #{ libvirt_version }
 # Virtual CPUs
 libvirt_virtual_cpus #{ libvirt_vcpus }"
         @conn.close
-        msg
+        msg.string
       end
     end
   end
