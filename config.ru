@@ -24,10 +24,27 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-require 'sinatra'
-require_relative 'exporter/collector'
+require 'rack'
+require 'stringio'
 
-$OSv_URL = {peers: '127.0.0.1:8001', node: '127.0.0.1:8901'}
+require_relative 'exporter/libvirt'
+require_relative 'exporter/osv'
 
+handler = Rack::Handler::WEBrick
+Rack::Utils.key_space_limit = 128
 
-run Exporter::Collector
+class LibvirtExporter
+  ALLOWED      = '/metrics'
+  CONTENT_TYPE = {"Content-Type" => "text/plain"}
+  NOT_FOUND    = [404, CONTENT_TYPE, "404 - Page not found" ]
+  SUCCESS      = 200
+
+  def call(env)
+    request = Rack::Request.new(env)
+    return NOT_FOUND unless request.get?
+    return NOT_FOUND unless request.path == ALLOWED
+    [SUCCESS, CONTENT_TYPE, [Exporter::PrometheusLibvirt.export + Exporter::PrometheusOsv.export]]
+  end
+end
+
+handler.run(LibvirtExporter.new, {Port: 9292})
